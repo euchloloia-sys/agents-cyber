@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agents Cyber — jeu sérieux sur la cybersécurité</title>
+  <meta name="description" content="Jeu sérieux accessible sur la cybersécurité pour le collège (5e, 4e, 3e) : 6 missions, des codes, un coffre-fort.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="lien-evitement" href="#principal">Aller au contenu</a>
+
+  <header class="entete" role="banner">
+    <div class="entete__photo" aria-hidden="true"></div>
+    <div class="entete__inner">
+      <img class="logo-etab logo-etab--fonce" src="img/logo-pleyel.png" alt="EREA Ignace Pleyel" width="360" height="321">
+      <img class="logo-etab logo-etab--clair" src="img/logo-pleyel-clair.png" alt="EREA Ignace Pleyel" width="360" height="321">
+      <div class="marque">
+        <a href="#/" class="logo" aria-label="Agents Cyber, retour à l'accueil">
+          <span aria-hidden="true">🔐</span> Agents Cyber
+        </a>
+        <p class="marque__sous-titre">Technologie – M. Loquet</p>
+      </div>
+      <div class="entete__agent" id="badge-agent" hidden></div>
+      <nav aria-label="Outils">
+        <ul class="entete__outils">
+          <li><button type="button" class="btn btn--discret" id="btn-reglages" aria-haspopup="dialog">
+            <span aria-hidden="true">⚙️</span> Réglages</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="principal" tabindex="-1">
+    <div id="vue" class="vue"></div>
+  </main>
+
+  <footer class="pied" role="contentinfo">
+    <nav aria-label="Pages utiles">
+      <ul>
+        <li><a href="#/fiche">Fiche élève à imprimer</a></li>
+        <li><a href="#/kit">Kit papier (roue de César)</a></li>
+        <li><a href="#/accessibilite">Accessibilité</a></li>
+        <li><a href="#/enseignant">Espace enseignant</a></li>
+      </ul>
+    </nav>
+    <p class="pied__note">Aucune donnée n'est envoyée sur Internet : tout reste sur cet appareil.</p>
+    <p class="pied__note">© 2026 L. Loquet — EREA Ignace Pleyel · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license">Licence CC BY-NC-SA 4.0</a></p>
+  </footer>
+
+  <!-- Guide de lecture (masque) -->
+  <div id="guide" aria-hidden="true" hidden><div class="guide__haut"></div><div class="guide__bas"></div></div>
+
+  <!-- Annonces pour les lecteurs d'écran -->
+  <div id="annonce" class="visuellement-cache" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Fenêtre des réglages -->
+  <dialog id="dlg-reglages" aria-labelledby="titre-reglages">
+    <form method="dialog" class="reglages">
+      <h2 id="titre-reglages">Réglages d'affichage et de voix</h2>
+
+      <fieldset class="aide-lecture" aria-describedby="aide-lecture-desc">
+        <legend>Aide à la lecture</legend>
+        <p id="aide-lecture-desc" class="champ__aide">Pour les élèves qui ont des difficultés de lecture (dyslexie, fatigue visuelle…).</p>
+        <button type="button" class="btn btn--principal" id="profil-lecture">📖 Activer le mode lecture facilitée</button>
+        <p class="champ__aide">Ce bouton active d'un coup : texte plus grand, fond crème, espacements, lignes courtes, mots en deux couleurs et lecture au clic.</p>
+        <div class="choix-colonne">
+          <label><input type="checkbox" name="alterne"> Mots en deux couleurs (un mot sur deux)</label>
+          <label><input type="checkbox" name="guide"> Guide de lecture (bande qui suit la souris ou le doigt)</label>
+          <label><input type="checkbox" name="clic"> Lecture au clic : touche un texte pour l'entendre</label>
+          <label><input type="checkbox" name="lignes"> Lignes plus courtes</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Taille du texte</legend>
+        <div class="choix-ligne">
+          <label><input type="radio" name="taille" value="100"> Normale</label>
+          <label><input type="radio" name="taille" value="125"> Grande</label>
+          <label><input type="radio" name="taille" value="150"> Très grande</label>
+          <label><input type="radio" name="taille" value="175"> Énorme</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Police de caractères</legend>
+        <div class="choix-ligne">
+          <label><input type="radio" name="police" value="arial"> Arial</label>
+          <label><input type="radio" name="police" value="verdana"> Verdana</label>
+          <label><input type="radio" name="police" value="luciole"> Luciole <small>(si installée)</small></label>
+          <label><input type="radio" name="police" value="opendyslexic"> OpenDyslexic <small>(si installée)</small></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Espacement</legend>
+        <div class="choix-ligne">
+          <label><input type="checkbox" name="interligne"> Lignes plus espacées</label>
+          <label><input type="checkbox" name="lettres"> Lettres et mots plus espacés</label>
+          <label><input type="checkbox" name="paragraphes"> Paragraphes plus espacés</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Couleurs</legend>
+        <div class="choix-ligne">
+          <label><input type="radio" name="theme" value="clair"> Clair</label>
+          <label><input type="radio" name="theme" value="creme"> Crème (plus doux pour lire)</label>
+          <label><input type="radio" name="theme" value="sombre"> Sombre</label>
+          <label><input type="radio" name="theme" value="contraste"> Contraste élevé (jaune sur noir)</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Mouvements</legend>
+        <label><input type="checkbox" name="calme"> Supprimer les animations</label>
+      </fieldset>
+
+      <fieldset id="reglages-voix">
+        <legend>Voix (lecture audio)</legend>
+        <p class="voix-indispo" hidden>La lecture audio n'est pas disponible dans ce navigateur. Essayez Chrome, Edge ou Firefox.</p>
+        <label for="voix-choix">Voix</label>
+        <select id="voix-choix" name="voix"></select>
+        <label for="voix-debit">Vitesse de lecture : <output id="voix-debit-val">1</output></label>
+        <input type="range" id="voix-debit" name="debit" min="0.6" max="1.4" step="0.1">
+        <label><input type="checkbox" name="auto"> Lire automatiquement chaque nouvelle question</label>
+        <button type="button" class="btn" id="voix-test">🔊 Tester la voix</button>
+      </fieldset>
+
+      <div class="reglages__actions">
+        <button type="button" class="btn btn--discret" id="reglages-defaut">Remettre les réglages de départ</button>
+        <button class="btn btn--principal" value="ok">Fermer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Fenêtre de confirmation -->
+  <dialog id="dlg-confirmer" aria-labelledby="confirmer-titre" aria-describedby="confirmer-texte">
+    <form method="dialog" class="confirmer">
+      <h2 id="confirmer-titre">Confirmer</h2>
+      <p id="confirmer-texte"></p>
+      <div class="reglages__actions">
+        <button class="btn" value="non">Non, annuler</button>
+        <button class="btn btn--danger" value="oui">Oui</button>
+      </div>
+    </form>
+  </dialog>
+
+  <noscript><p class="noscript">Ce jeu a besoin de JavaScript pour fonctionner. Demande de l'aide à ton professeur.</p></noscript>
+
+  <script src="js/config.js"></script>
+  <script src="js/missions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
